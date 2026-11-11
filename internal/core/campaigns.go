@@ -1,6 +1,7 @@
 package core
 
 import (
+	"context"
 	"database/sql"
 	"net/http"
 	"time"
@@ -19,6 +20,10 @@ const (
 
 	campaignTplDefault = "default"
 	campaignTplArchive = "archive"
+
+	// pqUniqueViolation is the Postgres error code for unique constraint
+	// violations, raised when an archive slug is taken by another campaign.
+	pqUniqueViolation = pq.ErrorCode("23505")
 )
 
 // QueryCampaigns retrieves paginated campaigns optionally filtering them by the given arbitrary
@@ -168,9 +173,19 @@ func (c *Core) CreateCampaign(o models.Campaign, listIDs []int, mediaIDs []int) 
 			c.i18n.Ts("globals.messages.errorUUID", "error", err.Error()))
 	}
 
+	// The campaign insert and the archive alias registration are committed
+	// together so an interrupted write never leaves a partial state.
+	tx, err := c.db.BeginTxx(context.Background(), nil)
+	if err != nil {
+		c.log.Printf("error beginning transaction: %v", err)
+		return models.Campaign{}, echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorCreating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+	defer tx.Rollback()
+
 	// Insert and read ID.
 	var newID int
-	if err := c.q.CreateCampaign.Get(&newID,
+	if err := tx.Stmtx(c.q.CreateCampaign).Get(&newID,
 		uu,
 		o.Type,
 		o.Name,
@@ -196,8 +211,24 @@ func (c *Core) CreateCampaign(o models.Campaign, listIDs []int, mediaIDs []int) 
 		if err == sql.ErrNoRows {
 			return models.Campaign{}, echo.NewHTTPError(http.StatusBadRequest, c.i18n.T("campaigns.noSubs"))
 		}
+		if e, ok := err.(*pq.Error); ok && e.Code == pqUniqueViolation {
+			return models.Campaign{}, c.archiveSlugConflictErr()
+		}
 
 		c.log.Printf("error creating campaign: %v", err)
+		return models.Campaign{}, echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorCreating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+
+	// Register the initial slug as a historical alias.
+	if o.ArchiveSlug.Valid {
+		if err := c.syncCampaignArchiveAlias(tx, newID, o.ArchiveSlug.String); err != nil {
+			return models.Campaign{}, err
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		c.log.Printf("error committing transaction: %v", err)
 		return models.Campaign{}, echo.NewHTTPError(http.StatusInternalServerError,
 			c.i18n.Ts("globals.messages.errorCreating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
 	}
@@ -212,7 +243,27 @@ func (c *Core) CreateCampaign(o models.Campaign, listIDs []int, mediaIDs []int) 
 
 // UpdateCampaign updates a campaign.
 func (c *Core) UpdateCampaign(id int, o models.Campaign, listIDs []int, mediaIDs []int) (models.Campaign, error) {
-	_, err := c.q.UpdateCampaign.Exec(id,
+	tx, err := c.db.BeginTxx(context.Background(), nil)
+	if err != nil {
+		c.log.Printf("error beginning transaction: %v", err)
+		return models.Campaign{}, echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorUpdating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+	defer tx.Rollback()
+
+	// Serialize concurrent edits (including archive slug changes) on this row.
+	if err := c.lockCampaign(tx, id); err != nil {
+		return models.Campaign{}, err
+	}
+
+	// Reject the change early if the new slug is owned by another campaign.
+	if o.ArchiveSlug.Valid {
+		if err := c.syncCampaignArchiveAlias(tx, id, o.ArchiveSlug.String); err != nil {
+			return models.Campaign{}, err
+		}
+	}
+
+	if _, err := tx.Stmtx(c.q.UpdateCampaign).Exec(id,
 		o.Name,
 		o.Subject,
 		o.FromEmail,
@@ -231,9 +282,18 @@ func (c *Core) UpdateCampaign(id int, o models.Campaign, listIDs []int, mediaIDs
 		o.ArchiveTemplateID,
 		o.ArchiveMeta,
 		pq.Array(mediaIDs),
-		o.BodySource)
-	if err != nil {
+		o.BodySource); err != nil {
+		if e, ok := err.(*pq.Error); ok && e.Code == pqUniqueViolation {
+			return models.Campaign{}, c.archiveSlugConflictErr()
+		}
+
 		c.log.Printf("error updating campaign: %v", err)
+		return models.Campaign{}, echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorUpdating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+
+	if err := tx.Commit(); err != nil {
+		c.log.Printf("error committing transaction: %v", err)
 		return models.Campaign{}, echo.NewHTTPError(http.StatusInternalServerError,
 			c.i18n.Ts("globals.messages.errorUpdating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
 	}
@@ -304,14 +364,116 @@ func (c *Core) UpdateCampaignStatus(id int, status string) (models.Campaign, err
 
 // UpdateCampaignArchive updates a campaign's archive properties.
 func (c *Core) UpdateCampaignArchive(id int, enabled bool, tplID int, meta models.JSON, archiveSlug string) error {
-	if _, err := c.q.UpdateCampaignArchive.Exec(id, enabled, archiveSlug, tplID, meta); err != nil {
-		c.log.Printf("error updating campaign: %v", err)
+	tx, err := c.db.BeginTxx(context.Background(), nil)
+	if err != nil {
+		c.log.Printf("error beginning transaction: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorUpdating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+	defer tx.Rollback()
 
+	// Serialize concurrent archive edits on this row.
+	if err := c.lockCampaign(tx, id); err != nil {
+		return err
+	}
+
+	// Reject early if the new slug is owned by another campaign. This also
+	// registers the slug as a historical alias of the current campaign.
+	if archiveSlug != "" {
+		if err := c.syncCampaignArchiveAlias(tx, id, archiveSlug); err != nil {
+			return err
+		}
+	}
+
+	if _, err := tx.Stmtx(c.q.UpdateCampaignArchive).Exec(id, enabled, archiveSlug, tplID, meta); err != nil {
+		if e, ok := err.(*pq.Error); ok && e.Code == pqUniqueViolation {
+			return c.archiveSlugConflictErr()
+		}
+
+		c.log.Printf("error updating campaign: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorUpdating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+
+	if err := tx.Commit(); err != nil {
+		c.log.Printf("error committing transaction: %v", err)
 		return echo.NewHTTPError(http.StatusInternalServerError,
 			c.i18n.Ts("globals.messages.errorUpdating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
 	}
 
 	return nil
+}
+
+// lockCampaign locks the given campaign row for the duration of the transaction.
+func (c *Core) lockCampaign(tx *sqlx.Tx, id int) error {
+	var lockedID int
+	if err := tx.Stmtx(c.q.LockCampaign).Get(&lockedID, id); err != nil {
+		if err == sql.ErrNoRows {
+			return echo.NewHTTPError(http.StatusBadRequest,
+				c.i18n.Ts("globals.messages.notFound", "name", "{globals.terms.campaign}"))
+		}
+
+		c.log.Printf("error locking campaign: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorFetching", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+
+	return nil
+}
+
+// syncCampaignArchiveAlias registers slug as a historical archive alias of
+// campaignID inside the ongoing transaction. If the slug is already owned by
+// another campaign, an HTTP 409 error is returned so the caller can roll back
+// instead of overwriting the owner's public link. The operation is idempotent:
+// re-registering a slug already owned by the same campaign is a no-op, which
+// makes retries and interrupted writes converge to the same alias set.
+func (c *Core) syncCampaignArchiveAlias(tx *sqlx.Tx, campaignID int, slug string) error {
+	if slug == "" {
+		return nil
+	}
+
+	// Look up the current owner. The alias row is locked (FOR UPDATE) so that
+	// concurrent renames targeting the same slug serialize here.
+	var ownerID int
+	err := tx.Stmtx(c.q.GetCampaignArchiveAlias).Get(&ownerID, slug)
+	if err != nil && err != sql.ErrNoRows {
+		c.log.Printf("error fetching archive alias: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorFetching", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+	if err == nil && ownerID != campaignID {
+		return c.archiveSlugConflictErr()
+	}
+
+	// Register the alias. ON CONFLICT skips the write when another campaign
+	// owns the slug; the post-write ownership check below catches that race.
+	if _, err := tx.Stmtx(c.q.InsertCampaignArchiveAlias).Exec(campaignID, slug); err != nil {
+		if e, ok := err.(*pq.Error); ok && e.Code == pqUniqueViolation {
+			return c.archiveSlugConflictErr()
+		}
+
+		c.log.Printf("error inserting archive alias: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorUpdating", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+
+	// Confirm ownership after the write.
+	if err := tx.Stmtx(c.q.GetCampaignArchiveAlias).Get(&ownerID, slug); err != nil {
+		c.log.Printf("error verifying archive alias: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			c.i18n.Ts("globals.messages.errorFetching", "name", "{globals.terms.campaign}", "error", pqErrMsg(err)))
+	}
+	if ownerID != campaignID {
+		return c.archiveSlugConflictErr()
+	}
+
+	return nil
+}
+
+// archiveSlugConflictErr returns the HTTP 409 error shown when an archive slug
+// is already registered against another campaign.
+func (c *Core) archiveSlugConflictErr() *echo.HTTPError {
+	return echo.NewHTTPError(http.StatusConflict, c.i18n.T("campaigns.archiveSlugExists"))
 }
 
 // DeleteCampaign deletes a campaign.

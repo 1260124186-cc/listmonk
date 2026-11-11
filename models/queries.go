@@ -77,6 +77,9 @@ type Queries struct {
 	GetCampaignStatus     *sqlx.Stmt `query:"get-campaign-status"`
 	GetArchivedCampaigns  *sqlx.Stmt `query:"get-archived-campaigns"`
 	CampaignHasLists      *sqlx.Stmt `query:"campaign-has-lists"`
+	LockCampaign          *sqlx.Stmt `query:"lock-campaign"`
+	GetCampaignArchiveAlias  *sqlx.Stmt `query:"get-campaign-archive-alias"`
+	InsertCampaignArchiveAlias *sqlx.Stmt `query:"insert-campaign-archive-alias"`
 
 	GetCampaignActivity       *sqlx.Stmt `query:"get-campaign-activity"`
 	GetCampaignActivityEvents *sqlx.Stmt `query:"get-campaign-activity-events"`

@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "بيانات الحملة الوصفية",
     "campaigns.archiveMetaHelp": "بيانات مشترك وهمية للعرض في الرسالة العامة.",
     "campaigns.archiveSlugHelp": "اسم قصير للصفحة في الرابط العام. مثال: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "تمت إضافة المرفق «{name}»",
     "campaigns.attribsHelp": "كائن JSON مخصص لهذه الحملة. استخدمه في القالب بـ {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "لا يمكن تعديل حملة قيد التشغيل أو مكتملة.",

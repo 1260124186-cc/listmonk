@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Dữ liệu siêu của chiến dịch",
     "campaigns.archiveMetaHelp": "Dữ liệu giả của người đăng ký để sử dụng trong tin nhắn công khai bao gồm tên, email và bất kỳ thuộc tính tùy chọn nào được sử dụng trong tin nhắn chiến dịch hoặc mẫu.",
     "campaigns.archiveSlugHelp": "Một tên ngắn cho trang được sử dụng trong đường dẫn URL công khai. Ví dụ: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Đã thêm tệp đính kèm “{name}”",
     "campaigns.attribsHelp": "Thuộc tính đối tượng JSON {} tùy chỉnh cho chiến dịch này. Sử dụng trong mẫu với {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Không thể cập nhật chiến dịch đang chạy hoặc đã kết thúc.",

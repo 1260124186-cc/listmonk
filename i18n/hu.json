@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Kapány metaadat",
     "campaigns.archiveMetaHelp": "A nyilvánosan közzétett kampányüzenetbe helyettesítendő adatok (pl. név, e-mail cím, és amiket a sablon használ).",
     "campaigns.archiveSlugHelp": "Egy rövid név a nyilvános URL-címben való használathoz. Például: az-en-hirlevelem-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "A(z) „{name}” melléklet hozzáadva",
     "campaigns.attribsHelp": "Egyedi JSON objektum {} attribútumok ehhez a kampányhoz. A sablonban használja ezt: {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Nem lehet frissíteni futó vagy befejezett kampányt.",

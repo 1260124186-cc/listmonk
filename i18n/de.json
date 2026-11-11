@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadaten der Kampagne ",
     "campaigns.archiveMetaHelp": "Dummy-Abonnentendaten, die in der öffentlichen Nachricht verwendet werden sollen, einschließlich Name, E-Mail und alle optionalen Attribute, die in der Kampagnennachricht oder -vorlage verwendet werden.",
     "campaigns.archiveSlugHelp": "Ein kurzer Name für die Seite, der in der öffentlichen URL verwendet wird. z. B.: meine-newsletter-ausgabe-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Anhang „{name}“ hinzugefügt",
     "campaigns.attribsHelp": "Benutzerdefiniertes JSON-Objekt {} Attribute für diese Kampagne. Verwenden Sie in der Vorlage mit {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Eine laufende oder abgeschlossene Kampagne kann nicht verändert werden.",

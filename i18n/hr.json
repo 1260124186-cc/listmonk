@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metapodaci kampanje",
     "campaigns.archiveMetaHelp": "Primjer podataka pretplatnika koji će se koristiti u javnoj poruci, uključujući ime, e-poštu i neobavezna svojstva koja se koriste u poruci ili predlošku.",
     "campaigns.archiveSlugHelp": "Kratki naziv stranice koji će se koristiti u javnom URL-u, npr. my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Dodan je privitak „{name}”",
     "campaigns.attribsHelp": "Prilagođeni JSON objekt {} sa svojstvima ove kampanje. Koristi se u predlošku kao {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Kampanju koja je u tijeku ili završena nije moguće ažurirati.",

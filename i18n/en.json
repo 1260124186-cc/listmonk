@@ -18,6 +18,7 @@
     "campaigns.archiveMeta": "Campaign metadata",
     "campaigns.archiveMetaHelp": "Dummy subscriber data to use in the public message including name, email, and any optional attributes used in the campaign message or template.",
     "campaigns.archiveSlugHelp": "A short name for the page to be used in the public URL. eg: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attribsHelp": "Custom JSON object {} attributes for this campaign. Use in template with {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Cannot update a running or a finished campaign.",
     "campaigns.confirmSchedule": "This campaign will start automatically at the scheduled date and time. Schedule now?",

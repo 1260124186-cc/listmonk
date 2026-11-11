@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Campagne metadata",
     "campaigns.archiveMetaHelp": "Dummy-abonneegegevens om te gebruiken in het openbare bericht, inclusief naam, e-mail en eventuele optionele attributen die in het campagnebericht of de sjabloon worden gebruikt.",
     "campaigns.archiveSlugHelp": "Een korte naam voor de pagina die gebruikt wordt in de openbare URL. Bijv: mijn-nieuwsbrief-editie-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Bijlage ‘{name}’ toegevoegd",
     "campaigns.attribsHelp": "Aangepast JSON-object {} attributen voor deze campagne. Gebruik in sjabloon met {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Kan een lopende of afgelopen campagne niet updaten.",

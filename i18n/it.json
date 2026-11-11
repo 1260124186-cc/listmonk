@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadati della campagna",
     "campaigns.archiveMetaHelp": "Dati fittizi dell'iscritto da utilizzare nel messaggio pubblico, inclusi nome, email ed eventuali attributi facoltativi utilizzati nel messaggio o nel modello della campagna.",
     "campaigns.archiveSlugHelp": "Un nome breve per la pagina da utilizzare nell'URL pubblico. es: mia-newsletter-edizione-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Allegato «{name}» aggiunto",
     "campaigns.attribsHelp": "Attributi personalizzati di oggetto JSON {} per questa campagna. Usa nel modello con {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Impossibile aggiornare una campagna in corso o già effettuata.",

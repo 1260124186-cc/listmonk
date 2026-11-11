@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadados da campanha",
     "campaigns.archiveMetaHelp": "Dados do subscritor modelo a usar em mensagens públicas, tais como nome, email e quais quer outros atributos opcionais usados na mensagem ou template da campanha.",
     "campaigns.archiveSlugHelp": "Um nome curto para a página a ser usado no URL público. ex: edicao-da-minha-newsletter-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Anexo «{name}» adicionado",
     "campaigns.attribsHelp": "Atributos de objeto JSON customizados {} para esta campanha. Use no template com {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Não é possível atualizar uma campanha em curso ou terminada.",

@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Метаданные кампании",
     "campaigns.archiveMetaHelp": "Фиктивные данные подписчика для использования в публичном сообщении, включая имя, адрес электронной почты и любые дополнительные атрибуты, используемые в сообщении или шаблоне кампании.",
     "campaigns.archiveSlugHelp": "Краткое имя страницы, которое будет использоваться в публичном URL. Например: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Добавлено вложение «{name}»",
     "campaigns.attribsHelp": "Пользовательский объект JSON {} атрибутов для этой кампании. Используйте в шаблоне с {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Невозможно обновить запущенную или завершённую кампанию.",

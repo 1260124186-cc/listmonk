@@ -140,6 +140,22 @@ DROP INDEX IF EXISTS idx_camps_created_at; CREATE INDEX idx_camps_created_at ON 
 DROP INDEX IF EXISTS idx_camps_updated_at; CREATE INDEX idx_camps_updated_at ON campaigns(updated_at);
 
 
+-- Historical archive slugs (aliases) of campaigns. Every non-empty canonical
+-- archive_slug ever assigned to a campaign is retained here so that old public
+-- archive links keep resolving to the same campaign after it is renamed.
+-- A slug is globally unique and can only ever point to a single campaign.
+DROP TABLE IF EXISTS campaign_archive_aliases CASCADE;
+CREATE TABLE campaign_archive_aliases (
+    id          BIGSERIAL PRIMARY KEY,
+    campaign_id INTEGER NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    slug        TEXT NOT NULL,
+    created_at  TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at  TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+CREATE UNIQUE INDEX idx_camp_archive_aliases_slug ON campaign_archive_aliases(slug);
+CREATE INDEX idx_camp_archive_aliases_camp ON campaign_archive_aliases(campaign_id);
+
+
 DROP TABLE IF EXISTS campaign_lists CASCADE;
 CREATE TABLE campaign_lists (
     id           BIGSERIAL PRIMARY KEY,

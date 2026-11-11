@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "מטא-נתונים של קמפיין",
     "campaigns.archiveMetaHelp": "נתוני מנוי לדוגמה לשימוש בהודעה הציבורית, כולל שם, כתובת אימייל ומאפיינים אופציונליים שמשמשים בהודעת הקמפיין או בתבנית.",
     "campaigns.archiveSlugHelp": "שם קצר לדף המשמש בכתובת ה-URL הציבורית. לדוגמה: מכתב-חדשות-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "הקובץ המצורף „{name}“ נוסף",
     "campaigns.attribsHelp": "אובייקט JSON מותאם אישית {} תכונות עבור קמפיין זה. השתמש בתבנית עם {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "לא ניתן לעדכן קמפיין בריצה או שהושלם.",

@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "कैंपेन मेटाडेटा",
     "campaigns.archiveMetaHelp": "सार्वजनिक संदेश में उपयोग के लिए नमूना सदस्य डेटा, जिसमें नाम, ई-मेल और कैंपेन संदेश या टेम्पलेट में उपयोग की गई कोई भी वैकल्पिक विशेषताएँ शामिल हैं।",
     "campaigns.archiveSlugHelp": "सार्वजनिक URL में उपयोग के लिए पृष्ठ का एक छोटा नाम। उदा: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "अटैचमेंट “{name}” जोड़ा गया",
     "campaigns.attribsHelp": "इस कैंपेन के लिए कस्टम JSON ऑब्जेक्ट {} विशेषताएँ। टेम्पलेट में {{ .Campaign.Attribs.$key }} के साथ उपयोग करें",
     "campaigns.cantUpdate": "चालू या समाप्त हो चुके कैंपेन को अपडेट नहीं किया जा सकता।",

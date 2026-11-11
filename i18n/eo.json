@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadatumoj de la kampajno",
     "campaigns.archiveMetaHelp": "Datumoj de la test-abonanto kiun oni povas uzi en la publika mesaĝo, inkluzive nomo, respoŝtadreso kaj ia ajn atributo uzata en la mesaĝo de kampajno aŭ ŝablono.",
     "campaigns.archiveSlugHelp": "Mallonga nomo por la paĝo, kiu estos uzita en la publika URL, ekzemple: mia-bulteno-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Aldonis la aldonaĵon «{name}»",
     "campaigns.attribsHelp": "Propra JSON-objekto {} atributoj por ĉi tiu kampanjo. Uzu en ŝablono kun {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Oni ne povas ĝisdatigi kurantan kampajnon aŭ finitan kampajnon.",

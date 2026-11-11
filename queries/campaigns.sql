@@ -93,9 +93,31 @@ SELECT campaigns.*,
     )
     WHERE CASE
             WHEN $1 > 0 THEN campaigns.id = $1
-            WHEN $3 != '' THEN campaigns.archive_slug = $3
+            -- Resolve both the canonical slug and retained historical aliases.
+            -- A missing alias yields NULL, so the comparison matches no rows (404).
+            WHEN $3 != '' THEN campaigns.id = (
+                SELECT campaign_id FROM campaign_archive_aliases WHERE slug = $3 LIMIT 1
+            )
             ELSE uuid = $2
           END;
+
+-- name: lock-campaign
+-- Locks a campaign row for the duration of a transaction so that concurrent
+-- archive slug changes are serialized.
+SELECT id FROM campaigns WHERE id = $1 FOR UPDATE;
+
+-- name: get-campaign-archive-alias
+-- Returns the owner campaign of an archive slug. Used inside a transaction
+-- with FOR UPDATE so concurrent renames block on the same alias row.
+SELECT campaign_id FROM campaign_archive_aliases WHERE slug = $1 FOR UPDATE;
+
+-- name: insert-campaign-archive-alias
+-- Registers a slug as an alias of the campaign. Idempotent: re-registering an
+-- existing slug is a no-op, which makes retries and interrupted writes converge.
+INSERT INTO campaign_archive_aliases (campaign_id, slug)
+    VALUES ($1, $2)
+    ON CONFLICT (slug) DO UPDATE SET updated_at = NOW()
+    WHERE campaign_archive_aliases.campaign_id = EXCLUDED.campaign_id;
 
 -- name: get-archived-campaigns
 SELECT COUNT(*) OVER () AS total, campaigns.*,

@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadata de la campaña",
     "campaigns.archiveMetaHelp": "Información de suscripción de ejemplo (por defecto) para ser usada en el mensaje público incluido nombre, correo electrónico, o cualquier valor accesible mediante atributos `{}` opcionales tanto en el mensaje de la campaña como en la plantilla.",
     "campaigns.archiveSlugHelp": "Nombre corto para la página que se utilizará en la URL pública. Ejemplo: mi-boletin-edicion-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Se ha añadido el archivo adjunto «{name}»",
     "campaigns.attribsHelp": "Atributos personalizados del objeto JSON {} para esta campaña. Usar en plantilla con {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "No es posible actualizar una campaña iniciada o finalizada.",

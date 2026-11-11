@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Kampanjemetadata",
     "campaigns.archiveMetaHelp": "Dummy-abonnentdata som brukes i den offentlige meldingen, inkludert navn, e-post og eventuelle valgfrie attributter brukt i kampanjemeldingen eller malen.",
     "campaigns.archiveSlugHelp": "Et kort navn for siden som brukes i den offentlige URL-en, f.eks.: min-nyhetsbrev-utgave-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Vedlegget «{name}» er lagt til",
     "campaigns.attribsHelp": "Egendefinert JSON-objekt {} attributter for denne kampanjen. Bruk i mal med {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Kan ikke oppdatere en kampanje som kjører eller er fullført.",

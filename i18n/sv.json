@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadata för kampanj",
     "campaigns.archiveMetaHelp": "Dummy prenumerantdata att använda i det offentliga meddelandet, inklusive namn, e-postadress och eventuella valfria attribut som används i kampanjmeddelandet eller mallen.",
     "campaigns.archiveSlugHelp": "Ett kort namn för sidan som används i den offentliga URL-adressen. t.ex: min-nyhetsbrev-upplaga-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Bilagan ”{name}” har lagts till",
     "campaigns.attribsHelp": "Anpassad JSON-objekt {} attribut för denna kampanj. Använd i mall med {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Kan inte uppdatera en pågående eller avslutad kampanj.",

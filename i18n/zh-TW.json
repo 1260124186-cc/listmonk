@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "行銷活動中繼資料",
     "campaigns.archiveMetaHelp": "公開訊息中使用的虛擬訂閱者資料，包括姓名、電子郵件，以及行銷活動訊息或版型中使用的任何選用屬性。",
     "campaigns.archiveSlugHelp": "用於公開 URL 的頁面的簡短名稱，例如：我的電子報第二期",
+    "campaigns.archiveSlugExists": "歸檔 URL 別名已被其他活動佔用。",
     "campaigns.attachmentAdded": "已新增附件「{name}」",
     "campaigns.attribsHelp": "此行銷活動的自訂 JSON 物件 {} 屬性。可在版型中使用 {{ .Campaign.Attribs.$key }}。",
     "campaigns.cantUpdate": "無法更新正在執行或已完成的行銷活動。",

@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metapodatki oglaševalske akcije",
     "campaigns.archiveMetaHelp": "Navidezni naročniški podatki za uporabo v javnem sporočilu, vključno z imenom, e-pošto in vsemi neobveznimi atributi, uporabljenimi v sporočilu ali predlogi oglaševalske akcije.",
     "campaigns.archiveSlugHelp": "Kratko ime za stran, ki bo uporabljena v javnem URL-ju. Npr.: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Priloga »{name}« je dodana",
     "campaigns.attribsHelp": "Po meri definirani JSON {} atributi za to kampanjo. Uporabite v predlogi z {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Ne morem posodobiti tekoče ali končane akcije.",

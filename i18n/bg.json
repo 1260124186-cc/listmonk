@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Метаданни на кампанията",
     "campaigns.archiveMetaHelp": "Примерни данни за абонати, които да се използват в публичното съобщение, включително име, имейл и всякакви допълнителни атрибути, използвани в съобщението на кампанията или шаблона.",
     "campaigns.archiveSlugHelp": "Кратко име за страницата, което ще се използва в публичния URL. Например: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Добавен е прикаченият файл „{name}“",
     "campaigns.attribsHelp": "Персонализиран JSON обект {} атрибути за тази кампания. Използвайте в шаблон с {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Не може да се актуализира активна или завършена кампания.",

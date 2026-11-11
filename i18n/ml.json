@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "കാമ്പെയ്‌ൻ മെറ്റാഡാറ്റ",
     "campaigns.archiveMetaHelp": "പേര്, ഇമെയിൽ, പ്രചാരണ സന്ദേശത്തിലോ ടെംപ്ലേറ്റിലോ ഉപയോഗിക്കുന്ന ഏതെങ്കിലും ഓപ്ഷണൽ ആട്രിബ്യൂട്ടുകൾ എന്നിവയുൾപ്പെടെ പൊതു സന്ദേശത്തിൽ ഉപയോഗിക്കാനുള്ള ഡമ്മി സബ്സ്ക്രൈബർ ഡാറ്റ.",
     "campaigns.archiveSlugHelp": "പൊതു യു‌ആർ‌എൽ - ന്റെയും ഉപയോഗിക്കുന്നതിന് ആയിരുന്നു പേജിന്റെയും സംക്ഷേപമായി. ഉദാ: എന്റെ-ന്യൂസ്-ലെറ്റർ-എഡിഷൻ-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "“{name}” എന്ന അറ്റാച്ച്മെന്റ് ചേർത്തു",
     "campaigns.attribsHelp": "ഈ കാമ്പെയ്നിനായുള്ള കাস്റ്റം JSON ഒബ്ജെക്റ്റ {} ആട്രിബ്യൂട്ടുകൾ. ടെമ്പ്ലേറ്റിൽ {{ .Campaign.Attribs.$key }} ഉപയോഗിക്കുക",
     "campaigns.cantUpdate": "ഇപ്പോൾ നടന്നുകൊണ്ടിരിയ്ക്കുന്നതോ, അവസാനിച്ചതോ ആയ ക്യാമ്പേയ്ൻ പുതുക്കാനാകില്ല.",

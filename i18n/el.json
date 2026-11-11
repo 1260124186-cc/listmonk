@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Μεταδεδομένα εκστρατείας",
     "campaigns.archiveMetaHelp": "Εικονικά δεδομένα συνδρομητή που χρησιμοποιούνται στο δημόσιο μήνυμα, συμπεριλαμβανομένου του ονόματος, της διεύθυνσης email και οποιωνδήποτε προαιρετικών χαρακτηριστικών που χρησιμοποιούνται στο μήνυμα ή το πρότυπο της εκστρατείας.",
     "campaigns.archiveSlugHelp": "Ένα σύντομο όνομα για τη σελίδα που θα χρησιμοποιείται στο δημόσιο URL. π.χ .: έκδοση-του-ενημερωτικού-δελτίου-μου-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Προστέθηκε το συνημμένο «{name}»",
     "campaigns.attribsHelp": "Ιδιότητες Custom JSON object {} για αυτή την καμπάνια. Χρησιμοποιήστε στο template με {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Δεν είναι δυνατή η ενημέρωση μιας εκστρατείας που βρίσκεται σε εξέλιξη ή έχει ολοκληρωθεί.",

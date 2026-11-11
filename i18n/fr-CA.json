@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Métadonnées de la campagne",
     "campaigns.archiveMetaHelp": "Données d'abonné fictives à utiliser dans le message public, notamment le nom, l'adresse électronique et tout attribut facultatif utilisé dans le message ou le modèle de la campagne.",
     "campaigns.archiveSlugHelp": "Un nom court pour la page à utiliser dans l'URL publique. par exemple: mon-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "La pièce jointe « {name} » a été ajoutée",
     "campaigns.attribsHelp": "Attributs d'objet JSON personnalisé {} pour cette campagne. Utilisez dans le modèle avec {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Impossible de mettre à jour une campagne en cours ou terminée.",

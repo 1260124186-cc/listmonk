@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadata kampaně",
     "campaigns.archiveMetaHelp": "Použít ukázková (dummy) data odběratele ve veřejné zprávě, včetně jména, e-mailu a volitelných atributů použitých v textu kampaně nebo šabloně.",
     "campaigns.archiveSlugHelp": "Krátký název stránky používaný v URL. Například: moje-novinky-edice-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Příloha „{name}“ byla přidána",
     "campaigns.attribsHelp": "Vlastní atributy objektu JSON {} pro tuto kampaň. Použijte v šabloně s {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Nelze aktualizovat spuštěnou nebo dokončenou kampaň.",

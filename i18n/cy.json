@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Ymgyrch metaddata",
     "campaigns.archiveMetaHelp": "Data tanysgrifiwr ffug i'w defnyddio yn y neges gyhoeddus",
     "campaigns.archiveSlugHelp": "Enw byr ar gyfer y dudalen a ddefnyddir yn yr URL cyhoeddus. e.e.: fy-lythyr-newyddiadur-edisiwn-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Ychwanegwyd yr atodiad ‘{name}’",
     "campaigns.attribsHelp": "Priodoleddau gwrthrych JSON {} yn ôl dewis ar gyfer yr ymgyrch hon. Defnyddiwch yn y nodyn gyda {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Does dim modd diweddaru ymgyrch fyw neu ymgyrch sydd wedi dod i ben.",

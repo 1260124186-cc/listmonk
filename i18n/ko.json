@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "캠페인 메타데이터",
     "campaigns.archiveMetaHelp": "캠페인 메시지나 템플릿에 사용할 더미 구독자 데이터(이름, 이메일, 속성 등).",
     "campaigns.archiveSlugHelp": "공개 URL에서 사용할 페이지의 짧은 이름. 예: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "첨부 파일을 추가했습니다: “{name}”",
     "campaigns.attribsHelp": "이 캠페인의 사용자 정의 JSON 객체 {} 속성입니다. 템플릿에서 {{ .Campaign.Attribs.$key }}로 사용하세요.",
     "campaigns.cantUpdate": "진행 중이거나 완료된 캠페인은 수정할 수 없습니다.",

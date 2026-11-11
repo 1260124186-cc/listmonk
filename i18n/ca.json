@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadades de la campanya",
     "campaigns.archiveMetaHelp": "Dades del subscriptor de prova per utilitzar en el missatge públic, inclosos el nom, l'adreça electrònica i qualsevol atribut opcional emprat en el missatge de la campanya o la plantilla.",
     "campaigns.archiveSlugHelp": "Un nom curt per a la pàgina que s'utilitzarà a l'URL públic, per exemple: la-meva-edicio-de-newsletter-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "S’ha afegit el fitxer adjunt «{name}»",
     "campaigns.attribsHelp": "Atributs de l'objecte JSON {} personalitzat d'aquesta campanya. Utilitzeu-los a la plantilla amb {{ .Campaign.Attribs.$key }}.",
     "campaigns.cantUpdate": "No es pot actualitzar una campanya en curs o ja finalitzada.",

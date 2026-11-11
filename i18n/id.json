@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadata kampanye",
     "campaigns.archiveMetaHelp": "Data pelanggan tiruan untuk digunakan dalam pesan publik termasuk nama, e-mail, dan atribut opsional apa pun yang digunakan dalam pesan atau templat kampanye.",
     "campaigns.archiveSlugHelp": "Nama pendek untuk halaman yang akan digunakan di URL publik. cth: buletin-saya-edisi-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Lampiran “{name}” ditambahkan",
     "campaigns.attribsHelp": "Objek JSON kustom {} atribut untuk kampanye ini. Gunakan di templat dengan {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Tidak dapat memperbarui kampanye yang sedang berjalan atau yang sudah selesai.",

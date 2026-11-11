@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Kampanjan metatiedot",
     "campaigns.archiveMetaHelp": "Tietuekuvioita voidaan käyttää julkisessa viestissä, joissa on mukana nimi, sähköposti ja kampanjaviestissä tai mallipohjassa käytetyt valinnaiset attribuutit.",
     "campaigns.archiveSlugHelp": "Lyhyt nimi sivulle, jota käytetään julkisessa URL:ssa. Esim: oma-uutiskirje-versio-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Liite ”{name}” lisätty",
     "campaigns.attribsHelp": "Mukautettu JSON-objekti {} -attribuutit tälle kampanjalle. Käytä mallissa {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Käynnissä olevaa tai päättynyttä kampanjaa ei voi päivittää.",

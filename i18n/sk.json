@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadáta kampane",
     "campaigns.archiveMetaHelp": "Použíť prázdne dáta prihlásených vo verejnom archíve vrátane mena, emailu a iných voliteľných atribútov použitých v správach kampane aleebo šablónach.",
     "campaigns.archiveSlugHelp": "Krátky názov stránky, ktorý sa používa v verejnom URL. Napríklad: moj-newsletter-edicia-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Príloha „{name}“ bola pridaná",
     "campaigns.attribsHelp": "Vlastný JSON objekt {} atribútov pre túto kampáň. Použite v šablóne s {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Nedá sa aktualizovať spustená alebo dokončená kampaň.",

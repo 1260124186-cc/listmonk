@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "キャンペーンメタデータ",
     "campaigns.archiveMetaHelp": "キャンペーンのメッセージやテンプレートに使う偽データ（名やメールアドレスや設定）。",
     "campaigns.archiveSlugHelp": "パブリックURLで使用されるページの短い名前。例：my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "添付ファイル「{name}」を追加しました",
     "campaigns.attribsHelp": "このキャンペーン用のカスタムJSON オブジェクト {} 属性。テンプレート内で {{ .Campaign.Attribs.$key }} で使用できます",
     "campaigns.cantUpdate": "実行中又は終了しているキャンペーンの更新はできません。",

@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Метадані кампанії",
     "campaigns.archiveMetaHelp": "Дані вигаданої підписни_ці для використання в загальнодоступному листі, зокрема ім'я (name), е-пошта (email) та будь-які необов'язкові атрибути, використані в листі чи шаблоні кампанії.",
     "campaigns.archiveSlugHelp": "Коротке ім'я сторінки, яке буде використовуватися в публічному URL. Наприклад: my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Додано вкладення «{name}»",
     "campaigns.attribsHelp": "Користувацькі JSON атрибути {} для цієї кампанії. Використовуйте в шаблоні з {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Неможливо оновити запущену чи завершену кампанію.",

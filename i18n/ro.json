@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Metadatele campaniei",
     "campaigns.archiveMetaHelp": "Datele abonaților inactivi de utilizat în mesajul public, inclusiv numele, e-mailul și orice atribute opționale utilizate în mesajul sau șablonul campaniei.",
     "campaigns.archiveSlugHelp": "Un nume scurt pentru pagina care va fi utilizat în URL-ul public. ex: editia-mea-de-newsletter-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "Atașamentul „{name}” a fost adăugat",
     "campaigns.attribsHelp": "Atribute personalizate de obiect JSON {} pentru această campanie. Utilizează în șablon cu {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "Nu se poate actualiza o campanie care rulează sau s-a terminat.",

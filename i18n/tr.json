@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "Kampanya meta verisi",
     "campaigns.archiveMetaHelp": "Ad, e-posta ve kampanya mesajında veya şablonunda kullanılan tüm isteğe bağlı öznitelikler dahil olmak üzere genel mesajda kullanılacak kukla abone verileri.",
     "campaigns.archiveSlugHelp": "Halka açık URL'de kullanılacak kısa bir ad. örn: benim-bülten-baskısı-2",
+    "campaigns.archiveSlugExists": "Archive URL slug is already in use by another campaign.",
     "campaigns.attachmentAdded": "“{name}” eki eklendi",
     "campaigns.attribsHelp": "Bu kampanya için özel JSON nesnesi {} nitelikleri. Şablonda {{ .Campaign.Attribs.$key }} ile kullanın",
     "campaigns.cantUpdate": "Gönderilmekte olan veya gönderilmiş kampaynalar güncellenemez.",

@@ -17,6 +17,7 @@
     "campaigns.archiveMeta": "活动元数据",
     "campaigns.archiveMetaHelp": "在公共消息中使用的模拟订阅者数据，包括姓名、电子邮件以及活动消息或模板中使用的任何可选属性。",
     "campaigns.archiveSlugHelp": "公共 URL 中用于页面的简短名称。例如：my-newsletter-edition-2",
+    "campaigns.archiveSlugExists": "归档 URL 别名已被其他活动占用。",
     "campaigns.attachmentAdded": "已添加附件“{name}”",
     "campaigns.attribsHelp": "此活动的自定义JSON对象{}属性。在模板中使用 {{ .Campaign.Attribs.$key }}",
     "campaigns.cantUpdate": "无法更新正在运行或已完成的营销活动。",
