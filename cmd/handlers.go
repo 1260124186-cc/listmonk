@@ -270,6 +270,8 @@ func initHTTPHandlers(e *echo.Echo, a *App) {
 		if a.cfg.BounceWebhooksEnabled {
 			// Private authenticated bounce endpoint.
 			g.POST("/webhooks/bounce", pm(a.BounceWebhook, auth.PermWebhooksPostBounce))
+			// Idempotent, provider-event-id based batch receipt sync.
+			g.POST("/webhooks/bounce/sync", pm(a.SyncBounceReceipts, auth.PermWebhooksPostBounce))
 		}
 	}
 

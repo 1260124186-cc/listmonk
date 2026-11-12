@@ -304,6 +304,25 @@ INSERT INTO settings (key, value) VALUES
     ('appearance.public.custom_js', '""'),
     ('maintenance.db', '{"vacuum": false, "vacuum_cron_interval": "0 2 * * *"}');
 
+-- bounce_events is the idempotent ledger of provider-identified bounce receipts
+-- synced through the batch receipt API. Each row maps 1:1 to a managed row in
+-- bounces via bounces.bounce_event_id.
+DROP TABLE IF EXISTS bounce_events CASCADE;
+CREATE TABLE bounce_events (
+    id               SERIAL PRIMARY KEY,
+    source           TEXT NOT NULL,
+    event_id         TEXT NOT NULL,
+    subscriber_id    INTEGER NOT NULL REFERENCES subscribers(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    campaign_id      INTEGER NULL REFERENCES campaigns(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    type             bounce_type NOT NULL,
+    meta             JSONB NOT NULL DEFAULT '{}',
+    event_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    created_at       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+DROP INDEX IF EXISTS idx_bounce_events_source_event; CREATE UNIQUE INDEX idx_bounce_events_source_event ON bounce_events(source, event_id);
+DROP INDEX IF EXISTS idx_bounce_events_sub_id; CREATE INDEX idx_bounce_events_sub_id ON bounce_events(subscriber_id);
+
 -- bounces
 DROP TABLE IF EXISTS bounces CASCADE;
 CREATE TABLE bounces (
@@ -313,12 +332,42 @@ CREATE TABLE bounces (
     type             bounce_type NOT NULL DEFAULT 'hard',
     source           TEXT NOT NULL DEFAULT '',
     meta             JSONB NOT NULL DEFAULT '{}',
-    created_at       TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at       TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    -- Set for bounce rows managed through the idempotent receipt sync API.
+    -- NULL rows are legacy/mailbox records and are never reconciled.
+    bounce_event_id  INTEGER NULL REFERENCES bounce_events(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP INDEX IF EXISTS idx_bounces_sub_id; CREATE INDEX idx_bounces_sub_id ON bounces(subscriber_id);
 DROP INDEX IF EXISTS idx_bounces_camp_id; CREATE INDEX idx_bounces_camp_id ON bounces(campaign_id);
 DROP INDEX IF EXISTS idx_bounces_source; CREATE INDEX idx_bounces_source ON bounces(source);
 DROP INDEX IF EXISTS idx_bounces_date; CREATE INDEX idx_bounces_date ON bounces(created_at);
+DROP INDEX IF EXISTS idx_bounces_event; CREATE UNIQUE INDEX idx_bounces_event ON bounces(bounce_event_id) WHERE bounce_event_id IS NOT NULL;
+
+-- bounce_status_ledger records subscriber/subscription state changes made by the
+-- receipt reconciliation so that they can be rolled back when events are retracted.
+-- Manual blocklists have no row (or a row whose timestamps pre-date the manual
+-- edit), and are therefore never touched by reconciliation.
+DROP TABLE IF EXISTS bounce_status_ledger CASCADE;
+CREATE TABLE bounce_status_ledger (
+    subscriber_id       INTEGER PRIMARY KEY REFERENCES subscribers(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    prev_sub_status     subscriber_status NOT NULL,
+    prev_list_statuses  JSONB NOT NULL DEFAULT '{}',
+    managed_blocklist   BOOLEAN NOT NULL DEFAULT FALSE,
+    managed_unsubscribe BOOLEAN NOT NULL DEFAULT FALSE,
+    updated_at          TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+-- bounce_receipt_batches stores the result of processed receipt batches keyed by
+-- the provider supplied batch id, making retried batch submissions idempotent.
+DROP TABLE IF EXISTS bounce_receipt_batches CASCADE;
+CREATE TABLE bounce_receipt_batches (
+    id         SERIAL PRIMARY KEY,
+    source     TEXT NOT NULL,
+    batch_id   TEXT NOT NULL,
+    result     JSONB NOT NULL DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+DROP INDEX IF EXISTS idx_bounce_receipt_batches; CREATE UNIQUE INDEX idx_bounce_receipt_batches ON bounce_receipt_batches(source, batch_id);
 
 -- roles
 DROP TABLE IF EXISTS roles CASCADE;

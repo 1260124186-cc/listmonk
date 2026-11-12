@@ -382,6 +382,39 @@ func (a *App) BounceWebhook(c *echo.Context) error {
 	return c.JSON(http.StatusOK, okResp{true})
 }
 
+// SyncBounceReceipts handles a batch snapshot of provider bounce receipts keyed
+// by provider event IDs. The entire batch is applied (or rejected) atomically:
+// duplicate events count once, type corrections overwrite old values, managed
+// events absent from the batch are retracted, and manually blocklisted
+// subscribers are never modified.
+func (a *App) SyncBounceReceipts(c *echo.Context) error {
+	// If bounce processing is disabled, a.bounce will be nil.
+	if a.bounce == nil {
+		return echo.NewHTTPError(http.StatusServiceUnavailable,
+			a.i18n.Ts("globals.messages.internalError"))
+	}
+
+	rawReq, err := io.ReadAll(c.Request().Body)
+	if err != nil {
+		a.log.Printf("error reading bounce receipt batch body: %v", err)
+		return echo.NewHTTPError(http.StatusBadRequest, a.i18n.Ts("globals.messages.invalidData"))
+	}
+
+	var batch models.BounceReceiptBatch
+	if err := json.Unmarshal(rawReq, &batch); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, a.i18n.Ts("globals.messages.invalidData")+":"+err.Error())
+	}
+
+	// Core returns localized echo.HTTPError values for validation conflicts
+	// and unknown subscribers, naming the offending provider event IDs.
+	res, err := a.core.SyncBounceReceipts(batch)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, okResp{res})
+}
+
 func (a *App) validateBounceFields(b models.Bounce) (models.Bounce, error) {
 	if b.Email == "" && b.SubscriberUUID == "" {
 		return b, echo.NewHTTPError(http.StatusBadRequest, a.i18n.Ts("globals.messages.invalidFields", "name", "email / subscriber_uuid"))

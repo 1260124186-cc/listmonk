@@ -136,6 +136,29 @@ type Queries struct {
 	DeleteBouncesBySubscriber   *sqlx.Stmt `query:"delete-bounces-by-subscriber"`
 	GetDBInfo                   string     `query:"get-db-info"`
 
+	// Idempotent provider-event-id based bounce receipt reconciliation.
+	LockBounceSource                string `query:"lock-bounce-source"`
+	GetBounceReceiptBatch           string `query:"get-bounce-receipt-batch"`
+	InsertBounceReceiptBatch        string `query:"insert-bounce-receipt-batch"`
+	ResolveBounceSubscribers        string `query:"resolve-bounce-subscribers"`
+	ResolveBounceCampaigns          string `query:"resolve-bounce-campaigns"`
+	GetBounceEvent                  string `query:"get-bounce-event"`
+	UpsertBounceEvent               string `query:"upsert-bounce-event"`
+	UpsertManagedBounce             string `query:"upsert-managed-bounce"`
+	GetRetractingBounceEvents       string `query:"get-retracting-bounce-events"`
+	DeleteBounceEvents              string `query:"delete-bounce-events"`
+	GetSubscriberForBounceReconcile string `query:"get-subscriber-for-bounce-reconcile"`
+	GetBounceCounts                 string `query:"get-bounce-counts"`
+	GetBounceStatusLedger           string `query:"get-bounce-status-ledger"`
+	UpsertBounceStatusLedger        string `query:"upsert-bounce-status-ledger"`
+	DeleteBounceStatusLedger        string `query:"delete-bounce-status-ledger"`
+	SnapshotBounceListStatuses      string `query:"snapshot-bounce-list-statuses"`
+	ApplyBounceBlocklistSubscriber  string `query:"apply-bounce-blocklist-subscriber"`
+	ApplyBounceBlocklistLists       string `query:"apply-bounce-blocklist-lists"`
+	ApplyBounceUnsubscribeLists     string `query:"apply-bounce-unsubscribe-lists"`
+	RestoreBounceSubscriberStatus   string `query:"restore-bounce-subscriber-status"`
+	RestoreBounceListStatuses       string `query:"restore-bounce-list-statuses"`
+
 	CreateUser         *sqlx.Stmt `query:"create-user"`
 	UpdateUser         *sqlx.Stmt `query:"update-user"`
 	UpdateUserProfile  *sqlx.Stmt `query:"update-user-profile"`
