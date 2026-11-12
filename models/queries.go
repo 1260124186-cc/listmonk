@@ -120,6 +120,17 @@ type Queries struct {
 	SetDefaultTemplate *sqlx.Stmt `query:"set-default-template"`
 	DeleteTemplate     *sqlx.Stmt `query:"delete-template"`
 
+	// Template bundle sync. These are kept as raw query strings so that they
+	// can be executed inside a single sqlx transaction.
+	GetManagedTemplates    string `query:"get-managed-templates"`
+	GetTemplateByKey       string `query:"get-template-by-key"`
+	InsertManagedTemplate  string `query:"insert-managed-template"`
+	UpdateManagedTemplate  string `query:"update-managed-template"`
+	SetDefaultTemplateSync string `query:"set-default-template-sync"`
+	GetDefaultTemplateID   string `query:"get-default-template-id"`
+	ReassignCampaignTpl    string `query:"reassign-campaign-template"`
+	DeleteManagedTemplate  string `query:"delete-managed-template"`
+
 	CreateLink        *sqlx.Stmt `query:"create-link"`
 	GetLinkURL        *sqlx.Stmt `query:"get-link-url"`
 	RegisterLinkClick *sqlx.Stmt `query:"register-link-click"`

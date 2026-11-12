@@ -233,6 +233,7 @@ func initHTTPHandlers(e *echo.Echo, a *App) {
 		g.GET("/api/templates/:id/preview", pm(hasID(a.PreviewTemplate), auth.PermTemplatesGet))
 		g.POST("/api/templates/preview", pm(a.PreviewTemplateBody, auth.PermTemplatesGet))
 		g.POST("/api/templates", pm(a.CreateTemplate, auth.PermTemplatesManage))
+		g.POST("/api/templates/sync", pm(a.SyncTemplates, auth.PermTemplatesManage))
 		g.PUT("/api/templates/:id", pm(hasID(a.UpdateTemplate), auth.PermTemplatesManage))
 		g.PUT("/api/templates/:id/default", pm(hasID(a.TemplateSetDefault), auth.PermTemplatesManage))
 		g.DELETE("/api/templates/:id", pm(hasID(a.DeleteTemplate), auth.PermTemplatesManage))

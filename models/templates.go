@@ -41,6 +41,13 @@ type Template struct {
 	BodySource null.String `db:"body_source" json:"body_source,omitempty"`
 	IsDefault  bool        `db:"is_default" json:"is_default"`
 
+	// TemplateKey is the stable identity of a bundle-managed template. It is
+	// NULL on templates created manually in the admin.
+	TemplateKey null.String `db:"template_key" json:"template_key,omitempty"`
+	// Managed indicates whether the template is owned by a template bundle and
+	// therefore eligible for create/update/remove during a bundle sync.
+	Managed bool `db:"managed" json:"managed"`
+
 	// Only relevant to tx (transactional) templates.
 	SubjectTpl  *tplRenderer `json:"-"`
 	Tpl         *tplRenderer `json:"-"`

@@ -86,10 +86,17 @@ CREATE TABLE templates (
     body_source     TEXT NULL,
     is_default      BOOLEAN NOT NULL DEFAULT false,
 
+    -- template_key is the stable identifier of a template that is managed by
+    -- an external template bundle. It is NULL on templates created manually
+    -- in the admin, which bundle sync never touches.
+    template_key    TEXT NULL,
+    managed         BOOLEAN NOT NULL DEFAULT false,
+
     created_at      TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at      TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 CREATE UNIQUE INDEX ON templates (is_default) WHERE is_default = true;
+CREATE UNIQUE INDEX idx_templates_template_key ON templates (template_key) WHERE template_key IS NOT NULL;
 
 
 -- campaigns

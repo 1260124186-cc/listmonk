@@ -349,3 +349,74 @@ func (a *App) previewTemplate(tpl models.Template) ([]byte, error) {
 
 	return out, nil
 }
+
+// SyncTemplates handles the reconciliation of an externally maintained
+// template bundle. The whole batch is validated (structure + render) and
+// applied in a single transaction; a single invalid entry rejects everything.
+func (a *App) SyncTemplates(c *echo.Context) error {
+	var b models.TemplateBundle
+	if err := c.Bind(&b); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest,
+			a.i18n.Ts("globals.messages.invalidFields", "name", err.Error()))
+	}
+
+	// Static validation: duplicate keys, multiple defaults, invalid fields.
+	if errs := b.Validate(); len(errs) > 0 {
+		msgs := make([]string, 0, len(errs))
+		for _, e := range errs {
+			msgs = append(msgs, e.Error())
+		}
+		return echo.NewHTTPError(http.StatusBadRequest, strings.Join(msgs, "; "))
+	}
+
+	// Dry-run compile and render of every entry. Render failure on a single
+	// template rejects the entire bundle before any DB write happens.
+	if err := a.manager.ValidateBundle(b); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	// Transactional reconciliation.
+	report, err := a.core.SyncTemplates(b)
+	if err != nil {
+		return err
+	}
+
+	// Refresh the in-memory tx template cache so the next send uses the new
+	// versions immediately, and evict deleted or type-changed templates.
+	a.refreshSyncedTemplateCache(report)
+
+	return c.JSON(http.StatusOK, okResp{report})
+}
+
+// refreshSyncedTemplateCache replaces cached transactional templates that were
+// created or updated, evicts templates that are no longer tx, and drops
+// deleted templates from the manager cache.
+func (a *App) refreshSyncedTemplateCache(report models.TemplateSyncReport) {
+	changed := make([]models.TemplateSyncResult, 0, len(report.Created)+len(report.Updated))
+	changed = append(changed, report.Created...)
+	changed = append(changed, report.Updated...)
+
+	for _, r := range changed {
+		tpl, err := a.core.GetTemplate(r.ID, false)
+		if err != nil {
+			a.log.Printf("template sync: error reloading template %d for cache refresh: %v", r.ID, err)
+			continue
+		}
+
+		if tpl.Type != models.TemplateTypeTx {
+			// The row may have changed type from tx; drop any stale cache entry.
+			a.manager.DeleteTpl(r.ID)
+			continue
+		}
+
+		if err := tpl.Compile(a.manager.GenericTemplateFuncs()); err != nil {
+			a.log.Printf("template sync: error compiling transactional template %d: %v", r.ID, err)
+			continue
+		}
+		a.manager.CacheTpl(tpl.ID, &tpl)
+	}
+
+	for _, r := range report.Deleted {
+		a.manager.DeleteTpl(r.ID)
+	}
+}
